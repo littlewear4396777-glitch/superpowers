@@ -55,7 +55,39 @@ Installation differs by harness. If you use more than one, install Superpowers s
 
 ### Claude Code
 
-Superpowers is available via the [official Claude plugin marketplace](https://claude.com/plugins/superpowers)
+Upstream Superpowers is available via the [official Claude plugin marketplace](https://claude.com/plugins/superpowers).
+
+#### Custom Fork
+
+In this fork, `main` is the unchanged upstream baseline; customizations live
+on `custom`, based on Superpowers 7.0.0. The customization adds method-level
+execution-flow requirements and checks to
+[brainstorming](skills/brainstorming/SKILL.md), without changing the rest of
+its workflow. Install from `custom` to get these rules, not from the official
+marketplace:
+
+```bash
+claude plugin marketplace add 'littlewear4396777-glitch/superpowers#custom' --scope user
+```
+
+```bash
+claude plugin install superpowers@superpowers-dev --scope user
+```
+
+If the official plugin is already enabled in user scope, disable it after
+the custom install succeeds to avoid loading duplicate skills and hooks:
+
+```bash
+claude plugin disable superpowers@claude-plugins-official --scope user
+```
+
+Start a new session. Verify that `claude plugin list` shows the custom plugin
+enabled and the official plugin disabled, and that
+`claude plugin details superpowers@superpowers-dev` reports that source.
+The loaded skill must come from the `superpowers-dev` cache. To revert,
+uninstall the custom plugin and re-enable the retained official plugin.
+Git-based plugin updates are version-based: a moving branch alone does not
+refresh an existing cache when the plugin version stays unchanged.
 
 #### Official Marketplace
 

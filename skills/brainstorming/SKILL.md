@@ -153,6 +153,37 @@ could plan from without going back to your human partner. Cover:
 - the parts of the how they decided, as they decided them
 - what's left to the builder
 
+For software, also cover components and dependency boundaries, data flow,
+error handling, and the testing approach. When the design includes an
+execution chain, the required section immediately after components and
+dependency boundaries is **Execution flow**:
+
+- Use a fenced `text` call-chain tree to show the path from entry to
+  completion. Group it by explicitly named service or repository and keep
+  cross-boundary handoffs visible.
+- Each method node has three fields:
+  `[module]Class#method 【新增／改造／复用】 action description`.
+  Separate the method coordinate, change label, and action by one space;
+  choose exactly one label. `新增` means a new class or method, `改造`
+  means changed behavior in an existing method, and `复用` means calling
+  an existing method unchanged. These labels describe planned changes,
+  not proof of implementation; state evidence strength separately.
+- Indentation shows caller/callee ownership, not just step ordering.
+  Siblings are ordered by execution. Include condition branches and
+  normal returns, refusal, failure, and fallback exits where applicable.
+  Mark the normal completion of the entry call, not only downstream returns.
+- Keep nodes short. Explain detailed validation, transactions, and
+  failure or fault-tolerance semantics in prose alongside the tree.
+  If concurrency or asynchronous timing matters, supplement the tree
+  with a `sequenceDiagram` for the timing the tree cannot express.
+
+For software without an execution chain, omit the tree; for non-software
+work, use the form appropriate to the domain.
+
+Before the builder check, check applicable execution flows for node
+coordinates and labels, call ownership and order, cross-boundary handoffs,
+exits, and consistency with the prose. Fix gaps inline.
+
 **Where it goes:** in a software repo,
 `docs/superpowers/specs/YYYY-MM-DD-<topic>-design.md`, committed.
 Otherwise, ask. Your human partner's preferences override both.
